@@ -39,8 +39,6 @@ if [[ "$DATABASE_DIALECT" == postgres* ]] && [ "$(whoami)" = "root" ]; then
     echo "Installing postgres requirements"
     if command -v uv > /dev/null 2>&1; then
         # Use uv in newer images
-	apt-get update
-	apt-get install -y libpq-dev gcc
         uv pip install -e .[postgres]
     else
         # Use pip in older images
