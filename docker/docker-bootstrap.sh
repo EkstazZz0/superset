@@ -27,6 +27,16 @@ if [ "$DEV_MODE" == "true" ]; then
 fi
 REQUIREMENTS_LOCAL="/app/docker/requirements-local.txt"
 PORT=${PORT:-8088}
+
+apt-get update
+apt-get install -y pkg-config
+apt-get install -y gcc alien libaio1 wget unzip
+
+wget https://download.oracle.com/otn_software/linux/instantclient/185000/oracle-instantclient18.5-basiclite-18.5.0.0.0-3.x86_64.rpm
+alien -i oracle-instantclient18.5-basiclite-18.5.0.0.0-3.x86_64.rpm
+sh -c 'echo /usr/lib/oracle/18.5/client64/lib/ > /etc/ld.so.conf.d/oracle.conf'
+ldconfig
+
 # If Cypress run – overwrite the password for admin and export env variables
 if [ "$CYPRESS_CONFIG" == "true" ]; then
     export SUPERSET_TESTENV=true
